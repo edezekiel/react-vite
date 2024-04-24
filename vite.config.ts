@@ -1,12 +1,19 @@
 /// <reference types='vitest' />
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { resolve } from 'node:path'
-import * as packageJson from './package.json'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'node:path';
+import * as packageJson from './package.json';
+import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    dts({
+      include: ['src/components'],
+      exclude: ['src/components/**.spec.tsx']
+    }),
+  ],
   build: {
     outDir: './dist',
     reportCompressedSize: true,
@@ -22,6 +29,6 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: "jsdom",
+    environment: 'jsdom',
   },
 });
